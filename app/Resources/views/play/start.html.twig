@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+        Let's Play
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+<table>
+	<tr valign=top>
+		<td>
+			<h1>Let's Play, Make a Choice...</h1>
+
+			<div id="myChoices"></div>
+		</td>
+		<td rowspan=2>
+			<h1>Results</h1>
+
+			<div id="results"></div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h1>Computer's Choice...</h1>
+
+			<div id="computerChoices"></div>
+		</td>
+	</tr>
+</table>
+
+{% endblock %}
+
+{% block javascripts %}
+    	{{ parent() }}
+	<script src="{{ asset('js/jquery-1.7.2.min.js') }}"></script>
+	<script src="{{ asset('js/start.js') }}"></script>
+{% endblock %}
+
