@@ -14,6 +14,8 @@ use AppBundle\Entity\Games;
 class PlayController extends Controller
 {
     /**
+     * Default Method
+     *
      * @Route("/start")
      */
     public function startAction()
@@ -22,6 +24,9 @@ class PlayController extends Controller
     }
 
     /**
+     * Determines winner based upon POST variables
+     * Database base determines if $myChoice loses to $computerChoice
+     *
      * @Route("/winner")
      * @Method({"POST"})
      */
@@ -65,19 +70,23 @@ class PlayController extends Controller
     }
 
     /**
+     * Returns JSON data of win and draw totals
+     *
      * @Route("/getScore")
      */
     public function getScore()
     {
         $em = $this->getDoctrine()->getManager();
-        	
+
         $score = $em->getRepository('AppBundle:Games')
             ->getScoreBySession();
-		
+
         return new JsonResponse($score);
     }
 
     /**
+     * Returns choice totals by player by choice
+     *
      * @Route("/getUserChoices")
      */
     public function getUserChoices()
@@ -91,6 +100,8 @@ class PlayController extends Controller
     }
 
     /**
+     * Returns available choices (rock, paper, etc.) from database
+     *
      * @Route("/getChoices")
      */
     public function getChoices()
@@ -107,6 +118,8 @@ class PlayController extends Controller
     }
 
     /**
+     * Returns a random number between 1 and 5
+     *
      * @Route("/computerPick")
      */
     public function computerPick()

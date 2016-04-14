@@ -5,6 +5,9 @@ $( document ).ready(function() {
     getChoices();
 });
 
+/**
+ * listener for button press (choice)
+ */
 $('#myChoices').on('click', '.choice', function() 
 {
     $('.choice').attr('disabled','disabled');
@@ -15,6 +18,9 @@ $('#myChoices').on('click', '.choice', function()
     computerPick();
 });
 
+/**
+ * Shows result of game and resets for next game
+ */
 function showResults()
 {
 	$.ajax({
@@ -45,6 +51,9 @@ function showResults()
     }, 3000);
 }
 
+/**
+ * Gets computers random choice and highlights choice
+ */
 function computerPick()
 {
     $.ajax({
@@ -70,6 +79,9 @@ function computerPick()
     });
 }
 
+/**
+ * gets score and displays on the page
+ */
 function getScore()
 {
     $.ajax({
@@ -90,6 +102,9 @@ function getScore()
     });
 }
 
+/**
+ * gets history of choices for player and computer
+ */
 function getUserChoices()
 {
     $.ajax({
@@ -137,6 +152,9 @@ function getUserChoices()
     });
 }
 
+/**
+ * gets choices from ajax call and populates the layout with buttons
+ */
 function getChoices()
 {
     myChoice = 0;

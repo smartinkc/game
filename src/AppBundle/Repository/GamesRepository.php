@@ -3,7 +3,6 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Games;
-//use Doctrine\ORM\EntityRepository;
 
 /**
  * GamesRepository
@@ -13,28 +12,32 @@ use AppBundle\Entity\Games;
  */
 class GamesRepository extends \Doctrine\ORM\EntityRepository
 {
-	/**
-     	* @return Score[]
-     	*/
-	public function getScoreBySession()
-	{
-		return $this->createQueryBuilder('games')
-			->select('games.winner, count(games.winner) AS score')
-			->andWhere('games.session = :session')
-            		->setParameter('session', session_id())
-			->groupBy('games.winner')
-            		->getQuery()
-            		->execute();
-	}
+    /**
+     * Returns score for user and computer based on session_id()
+     *
+     * @return Score[]
+     */
+    public function getScoreBySession()
+    {
+        return $this->createQueryBuilder('games')
+            ->select('games.winner, count(games.winner) AS score')
+            ->andWhere('games.session = :session')
+            ->setParameter('session', session_id())
+            ->groupBy('games.winner')
+            ->getQuery()
+            ->execute();
+    }
 
-	/**
-        * @return Choices[]
-        */
-        public function getChoicesByUser()
-        {
-		$em = $this->getEntityManager();
-		$connection = $em->getConnection();
-		$statement = $connection->prepare("select 1 as user,
+    /**
+     * Returns sum of choices grouped by player, choice based on session_id()
+     *
+     * @return Choices[]
+     */
+    public function getChoicesByUser()
+    {
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("select 1 as user,
 					choices.name AS choiceName,
                                         games.userChoice AS choice,
                                         count(games.userChoice) AS num
@@ -51,9 +54,9 @@ class GamesRepository extends \Doctrine\ORM\EntityRepository
 				JOIN choices ON choices.id = games.computerChoice
                                 where games.session = :session
                                 group by games.computerChoice;");
-		$statement->bindValue('session', session_id());
-		$statement->execute();
+        $statement->bindValue('session', session_id());
+        $statement->execute();
 
-		return $statement->fetchAll();
-        }
+        return $statement->fetchAll();
+    }
 }
