@@ -21,6 +21,36 @@ class PlayController extends Controller
     	}
 
 	/**
+	* @Route("/winner")
+	* @Method({"POST"})
+	*/
+	public function winner(){
+		var_dump(session_id());die;
+		
+		$myChoice = @$_POST["myChoice"];
+		$computerChoice = @$_POST["computerChoice"];
+
+		if($myChoice == $computerChoice){
+			return new Response(-1);
+		}
+		else{
+			$em = $this->getDoctrine()->getManager();
+
+			$choice = $em->getRepository('AppBundle:Winner')
+                        	->findOneBy(array('choiceId' => $myChoice));
+
+			$tmp = explode(',', $choice->getChoiceLose());
+
+			if(in_array($computerChoice, $tmp)){
+				return new Response(0);
+			}
+			else{
+				return new Response(1);
+			}
+		}
+	}
+
+	/**
 	* @Route("/getChoices")
 	*/
 	public function getChoices(){
