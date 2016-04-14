@@ -1,80 +1,79 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-        Let's Play
+    Let's Play
 {% endblock %}
 
 {% block stylesheets %}
-	<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 {% endblock %}
 
 {% block body %}
 <table>
-	<tr valign=top>
-		<td>
-			<h1>Let's Play, Make a Choice...</h1>
+    <tr valign=top>
+        <td>
+            <h1>Let's Play, Make a Choice...</h1>
 
-			<div id="myChoices"></div>
-		</td>
-		<td rowspan=3>
-			<h1>Score</h1>
+            <div id="myChoices"></div>
+        </td>
+        <td rowspan=3>
+            <h1>Score</h1>
 
-			<table>
-				<tr>
-                                        <td>
-						You
-                                        </td>
-                                        <td>
-						Computer
-                                        </td>
-					<td>
-						Draw
-					</td>
-                                </tr>
-				<tr>
-					<td id="score1">
-					</td>
-					<td id="score0">
-					</td>
-					<td id="score-1">
-					</td>
-				</tr>
-			</table>
+            <table>
+                <tr>
+                    <td>
+                        You
+                    </td>
+                    <td>
+                        Computer
+                    </td>
+                    <td>
+                        Draw
+                    </td>
+                </tr>
+                <tr>
+                    <td id="score1">
+                    </td>
+                    <td id="score0">
+                    </td>
+                    <td id="score-1">
+                    </td>
+                </tr>
+            </table>
 
-			<h1>Choices</h1>
+            <h1>Choices</h1>
 
-			<table id="choiceTotals">
-				<thead>
-				<tr>
-					<td>Choice</td>
-					<td>You</td>
-					<td>Computer</td>
-				</tr>
-				<thead>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<h1>Computer's Choice...</h1>
+            <table id="choiceTotals">
+                <thead>
+                    <tr>
+                        <td>Choice</td>
+                        <td>You</td>
+                        <td>Computer</td>
+                    </tr>
+                <thead>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h1>Computer's Choice...</h1>
 
-			<div id="computerChoices"></div>
-		</td>
-	</tr>
-	<tr>
-                <td>
-                        <h1>Result...</h1>
+            <div id="computerChoices"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h1>Result...</h1>
 
-                        <div id="result"></div>
-                </td>
-        </tr>
+            <div id="result"></div>
+        </td>
+    </tr>
 </table>
 
 {% endblock %}
 
 {% block javascripts %}
-    	{{ parent() }}
-	<script src="{{ asset('js/jquery-1.7.2.min.js') }}"></script>
-	<script src="{{ asset('js/start.js') }}"></script>
+    {{ parent() }}
+    <script src="{{ asset('js/jquery-1.7.2.min.js') }}"></script>
+    <script src="{{ asset('js/start.js') }}"></script>
 {% endblock %}
-
