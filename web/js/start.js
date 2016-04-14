@@ -84,11 +84,34 @@ function getUserChoices(){
                 url: 'getUserChoices',
                 data: '',
                 success: function( r ) {
-			console.log(r)
-                        //var id;
-                        //for(id in r){
-                        //        $('#score' + r[id]['winner']).html(r[id]['score']);
-                        //}
+			var id;
+			var data = [];
+			for(id in r){
+				if(!data[r[id]['choiceName']]){
+					data[r[id]['choiceName']] = [];
+				}				
+
+				if(r[id]['user'] == 1){
+					data[r[id]['choiceName']]['You'] = parseInt(r[id]['num'])<1? '0':parseInt(r[id]['num']);
+				}
+				else{
+					data[r[id]['choiceName']]['Computer'] = parseInt(r[id]['num'])<1? '0':parseInt(r[id]['num']);
+				}
+			}
+
+			var html = '<tr><td>Choice</td><td>You</td><td>Computer</td></tr>';
+		
+			for(id in data){
+				if(!data[id]['You']){
+                                        data[id]['You'] = 0;
+                                }
+
+				if(!data[id]['Computer']){
+					data[id]['Computer'] = 0;
+				}
+				html += '<tr><td>' + id + '</td><td>' + data[id]['You'] + '</td><td>' + data[id]['Computer'] + '</td></tr>';
+			}
+			$('#choiceTotals').html(html);
                 },
                 error: function ( r ) {
                         alert(r);
