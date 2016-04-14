@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use AppBundle\Entity\Games;
 
 class PlayController extends Controller
 {
@@ -25,13 +26,13 @@ class PlayController extends Controller
 	* @Method({"POST"})
 	*/
 	public function winner(){
-		var_dump(session_id());die;
-		
 		$myChoice = @$_POST["myChoice"];
 		$computerChoice = @$_POST["computerChoice"];
 
+		$status = -1;
+
 		if($myChoice == $computerChoice){
-			return new Response(-1);
+			$status = -1;
 		}
 		else{
 			$em = $this->getDoctrine()->getManager();
@@ -42,12 +43,48 @@ class PlayController extends Controller
 			$tmp = explode(',', $choice->getChoiceLose());
 
 			if(in_array($computerChoice, $tmp)){
-				return new Response(0);
+				$status = 0;
 			}
 			else{
-				return new Response(1);
+				$status = 1;
 			}
 		}
+
+		//save game to database
+		$game = new Games();
+        	$game->setSession(session_id());
+		$game->setWinner($status);
+		$game->setUserChoice($myChoice);
+		$game->setComputerChoice($computerChoice);
+        	$em = $this->getDoctrine()->getManager();
+        	$em->persist($game);
+        	$em->flush();
+
+		return new Response($status);
+	}
+
+	/**
+	* @Route("/getScore")
+	*/
+	public function getScore(){
+		$em = $this->getDoctrine()->getManager();
+        	
+		$score = $em->getRepository('AppBundle:Games')
+            		->getScoreBySession();
+		
+		return new JsonResponse($score);
+	}
+
+	/**
+	* @Route("/getUserChoices")
+	*/
+	public function getUserChoices(){
+		$em = $this->getDoctrine()->getManager();
+
+                $score = $em->getRepository('AppBundle:Games')
+                        ->getChoicesByUser();
+
+                return new JsonResponse($score);
 	}
 
 	/**

@@ -61,6 +61,41 @@ function computerPick(){
         });
 }
 
+function getScore(){
+	$.ajax({
+                type: 'GET',
+                url: 'getScore',
+                data: '',
+                success: function( r ) {
+			var id;
+			for(id in r){
+				$('#score' + r[id]['winner']).html(r[id]['score']);
+			}
+                },
+                error: function ( r ) {
+                        alert(r);
+                }
+        });
+}
+
+function getUserChoices(){
+	$.ajax({
+                type: 'GET',
+                url: 'getUserChoices',
+                data: '',
+                success: function( r ) {
+			console.log(r)
+                        //var id;
+                        //for(id in r){
+                        //        $('#score' + r[id]['winner']).html(r[id]['score']);
+                        //}
+                },
+                error: function ( r ) {
+                        alert(r);
+                }
+        });
+}
+
 function getChoices(){
 	myChoice = 0;
 	computerChoice = 0;
@@ -83,6 +118,9 @@ function getChoices(){
 
 			$('#myChoices').html(myData);
 			$('#computerChoices').html(computerData);
+
+			getScore();
+			getUserChoices();
 		},
 		error: function ( r ) {
 			alert(r);

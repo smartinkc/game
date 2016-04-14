@@ -2,6 +2,9 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Games;
+//use Doctrine\ORM\EntityRepository;
+
 /**
  * GamesRepository
  *
@@ -10,4 +13,47 @@ namespace AppBundle\Repository;
  */
 class GamesRepository extends \Doctrine\ORM\EntityRepository
 {
+	/**
+     	* @return Score[]
+     	*/
+	public function getScoreBySession()
+	{
+		return $this->createQueryBuilder('games')
+			->select('games.winner, count(games.winner) AS score')
+			->andWhere('games.session = :session')
+            		->setParameter('session', session_id())
+			->groupBy('games.winner')
+            		->getQuery()
+            		->execute();
+	}
+
+	/**
+        * @return Choices[]
+        */
+        public function getChoicesByUser()
+        {
+		$em = $this->getEntityManager();
+		$connection = $em->getConnection();
+		$statement = $connection->prepare("select 1 as user,
+					choices.name AS choiceName,
+                                        games.userChoice AS choice,
+                                        count(games.userChoice) AS num
+                                from games
+				JOIN choices ON choices.id = games.userChoice
+                                where games.session = :session
+                                group by games.userChoice
+                                UNION
+                                select 2 as user,
+					choices.name AS choiceName,
+                                        games.computerChoice AS choice,
+                                        count(games.computerChoice) AS num
+                                from games
+				JOIN choices ON choices.id = games.computerChoice
+                                where games.session = :session
+                                group by games.computerChoice;");
+		$statement->bindValue('session', session_id());
+		$statement->execute();
+
+		return $statement->fetchAll();
+        }
 }
