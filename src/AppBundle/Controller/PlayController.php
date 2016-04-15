@@ -20,6 +20,10 @@ class PlayController extends Controller
      */
     public function startAction()
     {
+        if(!isset($_COOKIE["PHPSESSID"])){
+            session_start();
+        }
+
         return $this->render('play/start.html.twig', []);
     }
 
