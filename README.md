@@ -4,7 +4,8 @@ game
 A Symfony project created on April 13, 2016, 1:57 pm.
 Author: Steve Martin
 
-
+Helpfull Symfony link:
+http://knpuniversity.com/screencast/symfony
 
 seed database
 =============
